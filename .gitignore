@@ -1,3 +1,7 @@
+*
+!*.cpp
+!Makefile
+!makeFile
 .idea * .iml
 personal-9894.md
 
