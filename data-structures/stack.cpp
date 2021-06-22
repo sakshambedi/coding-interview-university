@@ -12,7 +12,7 @@
 #include <iostream>
 
 /**
- * @brief
+ * @brief Stack array based implementation
  *
  * @tparam T
  */

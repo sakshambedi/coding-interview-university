@@ -300,8 +300,7 @@ class linked_list {
 
     std::cout << "head";
     while (_temp_node != NULL) {
-      _temp_node != NULL ? std::cout << " -> " << _temp_node->get_data()
-                         : std::cout << _temp_node->get_data();
+      std::cout << " -> " << _temp_node->get_data();
       _temp_node = _temp_node->next_node_pntr();
     }
     std::cout << " -> NULL" << std::endl;
