@@ -19,3 +19,4 @@ Thumbs.db * .out * .exe * .app
 *.out
 *.exe
 *.app
+test.cpp

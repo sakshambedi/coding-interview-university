@@ -53,7 +53,7 @@ class linked_list {
       __tail = __head;
     } else {
       __tail->set_next_node(_temp_node);
-      __tail = __tail->pointer_to_next_node();
+      __tail = __tail->next_node_pntr();
     }
     ++__linked_list_size;
   }
@@ -81,11 +81,14 @@ class linked_list {
    * @return T
    */
   T value_at(const int &_value_at_index) {
-    if (_value_at_index >= __linked_list_size) throw "Index out of bounds";
+    if (_value_at_index >= __linked_list_size)
+      throw std::invalid_argument(
+          "Index out of bounds for value at the parameter! No value exist at "
+          "that index.");
 
     node<T> *_temp_node = __head;
     for (int i = 0; i < _value_at_index; i++)
-      _temp_node = _temp_node->pointer_to_next_node();
+      _temp_node = _temp_node->next_node_pntr();
 
     return _temp_node->get_data();
   }
@@ -113,10 +116,39 @@ class linked_list {
    */
   void pop_front() {
     if (__linked_list_size == 0)
-      throw "Linked List of size 0. Can not remove any elements";
+      throw std::length_error(
+          "Linked List of size 0. Can not remove any elements");
 
-    node<T> *_temp_node = __head->pointer_to_next_node();
-    __head = _temp_node;
+    node<T> *_node_for_return = __head;
+    __linked_list_size == 1 ? __head = NULL : __head = __head->next_node_pntr();
+    --__linked_list_size;
+  }
+
+  node<T> *pop_back() {
+    if (__linked_list_size == 0)
+      throw std::length_error(
+          "Linked List of size 0. Can not remove any elements");
+
+    node<T> *_node_for_return;
+    if (__linked_list_size == 1) {
+      _node_for_return = __head;
+      __head = NULL;
+    }
+
+    else {
+      node<T> *_temp_node = __head;
+      while (_temp_node->next_node_pntr()->next_node_pntr() != NULL) {
+        _temp_node = _temp_node->next_node_pntr();
+      }
+
+      _node_for_return = _temp_node->next_node_pntr();
+      __tail = _temp_node;
+      _temp_node->set_next_node(NULL);
+    }
+    // finally decrement the size of the linked list
+    --__linked_list_size;
+
+    return _node_for_return;
   }
 
   /**
@@ -126,8 +158,10 @@ class linked_list {
    * @return T
    */
   T front() {
-    return __linked_list_size == 0 ? throw "Linked list of size 0 Exception."
-                                   : __head->get_data();
+    return __linked_list_size == 0
+               ? throw std::length_error(
+                     "Linked list of size 0 Exception! No front value exists.")
+               : __head->get_data();
   }
 
   /**
@@ -137,8 +171,10 @@ class linked_list {
    * @return T
    */
   T back() {
-    return __linked_list_size == 0 ? throw "Linked list of size 0 Exception."
-                                   : __tail->get_data();
+    return __linked_list_size == 0
+               ? throw std::length_error(
+                     "Linked list of size 0 Exception! No back value exists.")
+               : __tail->get_data();
   }
 
   /**
@@ -151,26 +187,107 @@ class linked_list {
    */
   void insert(const int &_index, const T _input_T_data) {
     if (_index > __linked_list_size || _index < 0)
-      throw "Index out of range for the linked list.";
+      throw std::invalid_argument(
+          "Input value for index out of range for the linked list.");
 
     node<T> *_temp_node = __head;
     node<T> *_insert_node = new node<T>(_input_T_data);
 
     if (_index == __linked_list_size) {
       __tail->set_next_node(_insert_node);
-      __tail = __tail->pointer_to_next_node();
+      __tail = __tail->next_node_pntr();
     } else if (_index == 0) {
       __head = _insert_node;
       __head->set_next_node(_temp_node);
 
     } else {
       for (int i = 0; i < _index - 1; i++) {
-        _temp_node = _temp_node->pointer_to_next_node();
+        _temp_node = _temp_node->next_node_pntr();
       }
-      _insert_node->set_next_node(_temp_node->pointer_to_next_node());
+      _insert_node->set_next_node(_temp_node->next_node_pntr());
       _temp_node->set_next_node(_insert_node);
     }
     ++__linked_list_size;
+  }
+
+  /**
+   * @brief Returns the Nth value stored in the linked list from the back.
+   *        Value of N {1 - size of the linked list}
+   *
+   *
+   * @throws Value of the Nth term is illegal
+   *
+   * @param _value_from_n_index Nth value from the end of the list from where n
+   * > 0
+   * @return T
+   */
+  T value_n_from_end(const int &_value_from_n_index) {
+    if (_value_from_n_index > __linked_list_size)
+      throw std::invalid_argument(
+          "Value of Nth term from the back does not exist!");
+
+    int _index = __linked_list_size - _value_from_n_index, _curr_index = 1;
+    node<T> *_temp_node;
+    for (_temp_node = __head; _curr_index <= _index; _curr_index++) {
+      _temp_node = _temp_node->next_node_pntr();
+    }
+    return _temp_node->get_data();
+  }
+
+  /**
+   * @brief Remove a value from the linked list
+   *
+   * @param _remove_this_value
+   * @throws std::length_error
+   * @return bool
+   */
+  bool remove_value(const T &_remove_this_value) {
+    if (__linked_list_size == 0)
+      throw std::length_error(
+          "Linked List of size 0. Can not remove any elements");
+
+    if (__head->get_data() == _remove_this_value) {
+      pop_front();
+      return true;
+    } else if (__tail->get_data() == _remove_this_value) {
+      pop_back();
+      return true;
+    } else {
+      for (node<T> *_temp_node = __head;
+           _temp_node->next_node_pntr()->next_node_pntr() != NULL;
+           _temp_node = _temp_node->next_node_pntr()) {
+        if (_temp_node->next_node_pntr()->get_data() == _remove_this_value) {
+          _temp_node->set_next_node(
+              _temp_node->next_node_pntr()->next_node_pntr());
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  /**
+   * @brief Reverse the linked list
+   *
+   * @throw std::length_error
+   * @return void   */
+  void reverse_linked_list() {
+    if (__linked_list_size == 0)
+      throw std::length_error(
+          "Linked list of size 0! Reverse can not be performed!");
+
+    node<T> *__new_head = NULL;
+    node<T> *_transverse_node = NULL;
+    __new_head = pop_back();
+    _transverse_node = __new_head;
+
+    for (; __head != NULL;) {
+      _transverse_node->set_next_node(pop_back());
+      _transverse_node = _transverse_node->next_node_pntr();
+    }
+
+    __head = __new_head;
+    __tail = _transverse_node;
   }
 
   /**
@@ -180,13 +297,13 @@ class linked_list {
   void print() {
     node<T> *_temp_node = __head;
 
-    std::cout << "head -> ";
+    std::cout << "head";
     while (_temp_node != NULL) {
-      _temp_node->pointer_to_next_node() != NULL
-          ? std::cout << _temp_node->get_data() << " -> "
-          : std::cout << _temp_node->get_data() << " -> NULL " << std::endl;
-      _temp_node = _temp_node->pointer_to_next_node();
+      _temp_node != NULL ? std::cout << " -> " << _temp_node->get_data()
+                         : std::cout << _temp_node->get_data();
+      _temp_node = _temp_node->next_node_pntr();
     }
+    std::cout << " -> NULL" << std::endl;
   }
 };
 
@@ -216,7 +333,7 @@ class node {
    *
    * @return node*
    */
-  node *pointer_to_next_node() { return __next_node; }
+  node *next_node_pntr() { return __next_node; }
 
   /**
    * @brief Get the data stored in node<T> object
@@ -225,42 +342,3 @@ class node {
    */
   T get_data() { return __node_data; }
 };
-
-int main() {
-  linked_list<int> ll;
-  ll.push_back(1);
-  ll.push_back(2);
-  ll.push_back(3);
-  ll.push_back(4);
-
-  ll.push_front(10);
-  ll.push_front(20);
-  ll.push_front(30);
-  ll.push_front(40);
-  ll.print();
-
-  ll.pop_front();
-  ll.pop_front();
-
-  ll.print();
-
-  // std::cout << ll.value_at(0) << std::endl;
-  // std::cout << ll.value_at(1) << std::endl;
-  // std::cout << ll.value_at(2) << std::endl;
-  // std::cout << ll.value_at(3) << std::endl;
-
-  try {
-    // std::cout << ll.value_at(10) << std::endl;
-    std::cout << "Element at the front : " << ll.front() << std::endl;
-    std::cout << "Element at the back : " << ll.back() << std::endl;
-    ll.insert(2, 100);
-    ll.insert(0, 200);
-
-    ll.print();
-
-  } catch (const char *msg) {
-    std::cout << msg << std::endl;
-  }
-
-  return 1;
-}
