@@ -114,7 +114,7 @@ class linked_list {
    *
    * @throws Size of the list is 0
    */
-  void pop_front() {
+  node<T> *pop_front() {
     if (__linked_list_size == 0)
       throw std::length_error(
           "Linked List of size 0. Can not remove any elements");
@@ -122,6 +122,7 @@ class linked_list {
     node<T> *_node_for_return = __head;
     __linked_list_size == 1 ? __head = NULL : __head = __head->next_node_pntr();
     --__linked_list_size;
+    return _node_for_return;
   }
 
   node<T> *pop_back() {
