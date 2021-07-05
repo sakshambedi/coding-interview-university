@@ -69,7 +69,7 @@ class stack_array {
    * @return T
    */
   T dequeue() {
-    if (__curr_index == 0)
+    if (empty())
       throw std::length_error("Stack size 0. Can not dequeue any value!");
 
     T _deque_value = __stk_array[0];
@@ -80,6 +80,12 @@ class stack_array {
     --__curr_index;
     return _deque_value;
   }
+
+  /**
+   * @brief Destroy the stack array object
+   *
+   */
+  ~stack_array() { delete __stk_array; }
 
   /**
    * @brief Print the stack as an array

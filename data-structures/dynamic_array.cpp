@@ -98,24 +98,3 @@ class dynamic_array {
     }
   }
 };
-
-int main(void) {
-  dynamic_array<int> d_a(3);
-  d_a.pushback(10);
-  d_a.pushback(20);
-  d_a.print();
-
-  d_a.pushfront(4);
-  d_a.pushfront(3);
-  d_a.print();
-
-  d_a.pushback(30);
-  d_a.pushback(40);
-  d_a.pushfront(2);
-  d_a.pushfront(1);
-  d_a.print();
-
-  dynamic_array<float> d_a_flt(5);
-  d_a_flt.pushback(3.12);
-  return 1;
-}

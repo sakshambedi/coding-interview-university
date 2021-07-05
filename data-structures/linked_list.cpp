@@ -99,8 +99,9 @@ class linked_list {
    * @param _push_front_value
    */
   void push_front(const T &_push_front_value) {
-    if (__head == NULL) {
+    if (empty()) {
       __head = new node<T>(_push_front_value);
+      __tail = __head;
     } else {
       node<T> *_temp_node = __head;
       __head = new node<T>(_push_front_value);
