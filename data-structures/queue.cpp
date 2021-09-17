@@ -94,7 +94,7 @@ class Queue_ll {
   T front() {
     if (__queue_size == 0)
       throw std::length_error("Queue of size 0. Can not dequeue any value!");
-    return __head->get_data(); 
+    return __head->get_data();
   }
 
   /**
@@ -117,7 +117,7 @@ class Queue_ll {
    * @param _other_queue
    * @return Queue_ll<T>&
    */
-  Queue_ll<T> &operator=(const Queue_ll<T> &_other_queue) noexcept {
+  Queue_ll<T> &operator=(const Queue_ll<T> &_other_queue) {   
     if (__head == &_other_queue) return *__head;
     if (empty())
       throw std::runtime_error("Can not clone an empty queue to another queue");

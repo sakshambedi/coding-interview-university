@@ -32,24 +32,24 @@ class BSTree {
   };
 
   std::unique_ptr<TreeNode> root;
-  std::string SubTreeAsString(const std::unique_ptr<TreeNode>& node)
+  std::string SubTreeAsString(const std::unique_ptr<TreeNode> &node)
       const;  // Helper method for Print()
   void Insert(
       T val,
-      std::unique_ptr<TreeNode>& node);  // Helper method for Insert(int val)
-  bool Contains(T val, std::unique_ptr<TreeNode>& node)
+      std::unique_ptr<TreeNode> &node);  // Helper method for Insert(int val)
+  bool Contains(T val, std::unique_ptr<TreeNode> &node)
       const;  // Helper method for Contains(int val)
   void Remove(
       T val,
-      std::unique_ptr<TreeNode>& node);  // Helper method for Remove(int val)
-  std::unique_ptr<TreeNode>& FindMin(
-      std::unique_ptr<TreeNode>& node);  // Helper method for Remove(int val)
-  void preOrderTranversal(const std::unique_ptr<TreeNode>& node) const;
-  void postOrderTranversal(const std::unique_ptr<TreeNode>& node) const;
-  void inOrderTranversal(const std::unique_ptr<TreeNode>& node) const;
-  void BFSTranversal(const std::unique_ptr<TreeNode>& node) const;
-  int height(const std::unique_ptr<TreeNode>& node) const;
-  void printCurrentLevel(const std::unique_ptr<TreeNode>& node,
+      std::unique_ptr<TreeNode> &node);  // Helper method for Remove(int val)
+  std::unique_ptr<TreeNode> &FindMin(
+      std::unique_ptr<TreeNode> &node);  // Helper method for Remove(int val)
+  void preOrderTranversal(const std::unique_ptr<TreeNode> &node) const;
+  void postOrderTranversal(const std::unique_ptr<TreeNode> &node) const;
+  void inOrderTranversal(const std::unique_ptr<TreeNode> &node) const;
+  void BFSTranversal(const std::unique_ptr<TreeNode> &node) const;
+  int height(const std::unique_ptr<TreeNode> &node) const;
+  void printCurrentLevel(const std::unique_ptr<TreeNode> &node,
                          int level) const;
 };
 
@@ -83,7 +83,7 @@ void BSTree<T>::Print() const {
  */
 template <typename T>
 void BSTree<T>::preOrderTranversal(
-    const std::unique_ptr<TreeNode>& node) const {
+    const std::unique_ptr<TreeNode> &node) const {
   if (node == nullptr) return;
   std::cout << std::to_string(node->data) << " ";
   this->preOrderTranversal(node->left);
@@ -99,7 +99,7 @@ void BSTree<T>::preOrderTranversal(
  */
 template <typename T>
 void BSTree<T>::postOrderTranversal(
-    const std::unique_ptr<TreeNode>& node) const {
+    const std::unique_ptr<TreeNode> &node) const {
   if (node == nullptr) return;
   this->postOrderTranversal(node->left);
   this->postOrderTranversal(node->right);
@@ -115,7 +115,7 @@ void BSTree<T>::postOrderTranversal(
  * @param node
  */
 template <typename T>
-void BSTree<T>::inOrderTranversal(const std::unique_ptr<TreeNode>& node) const {
+void BSTree<T>::inOrderTranversal(const std::unique_ptr<TreeNode> &node) const {
   if (node == nullptr) return;
   this->inOrderTranversal(node->left);
   std::cout << std::to_string(node->data) << " ";
@@ -130,7 +130,7 @@ void BSTree<T>::inOrderTranversal(const std::unique_ptr<TreeNode>& node) const {
  * @param node
  */
 template <typename T>
-void BSTree<T>::BFSTranversal(const std::unique_ptr<TreeNode>& node) const {
+void BSTree<T>::BFSTranversal(const std::unique_ptr<TreeNode> &node) const {
   if (node == nullptr) return;
 
   int h = height(root);
@@ -147,7 +147,7 @@ void BSTree<T>::BFSTranversal(const std::unique_ptr<TreeNode>& node) const {
  * @param level
  */
 template <typename T>
-void BSTree<T>::printCurrentLevel(const std::unique_ptr<TreeNode>& node,
+void BSTree<T>::printCurrentLevel(const std::unique_ptr<TreeNode> &node,
                                   const int level) const {
   if (node == nullptr) return;
   if (level == 1)
@@ -166,7 +166,7 @@ void BSTree<T>::printCurrentLevel(const std::unique_ptr<TreeNode>& node,
  * @return int
  */
 template <typename T>
-int BSTree<T>::height(const std::unique_ptr<TreeNode>& node) const {
+int BSTree<T>::height(const std::unique_ptr<TreeNode> &node) const {
   if (node == nullptr)
     return 0;
   else {
@@ -182,7 +182,7 @@ int BSTree<T>::height(const std::unique_ptr<TreeNode>& node) const {
 /// Print the subtree starting at node
 template <typename T>
 std::string BSTree<T>::SubTreeAsString(
-    const std::unique_ptr<TreeNode>& node) const {
+    const std::unique_ptr<TreeNode> &node) const {
   std::string leftStr =
       (node->left == nullptr) ? "{}" : SubTreeAsString(node->left);
   std::string rightStr =
@@ -200,7 +200,7 @@ void BSTree<T>::Insert(T val) {
 
 /// Insert a new value into the subtree starting at node
 template <typename T>
-void BSTree<T>::Insert(T val, std::unique_ptr<TreeNode>& node) {
+void BSTree<T>::Insert(T val, std::unique_ptr<TreeNode> &node) {
   if (node == nullptr) {
     // Case: node is a nullptr
     // Make a new TreeNode for it to point to
@@ -229,7 +229,7 @@ bool BSTree<T>::Contains(T val) const {
 /// Check if the given value exists in the subtree
 /// starting at node
 template <typename T>
-bool BSTree<T>::Contains(T val, std::unique_ptr<TreeNode>& node) const {
+bool BSTree<T>::Contains(T val, std::unique_ptr<TreeNode> &node) const {
   if (node == nullptr) {
     return false;
   } else if (val == node->data) {
@@ -249,7 +249,7 @@ void BSTree<T>::Remove(T val) {
 
 /// Remove given value from the subtree starting at node
 template <typename T>
-void BSTree<T>::Remove(T val, std::unique_ptr<TreeNode>& node) {
+void BSTree<T>::Remove(T val, std::unique_ptr<TreeNode> &node) {
   if (node == nullptr) {
     // Case: nullptr
 
@@ -277,7 +277,7 @@ void BSTree<T>::Remove(T val, std::unique_ptr<TreeNode>& node) {
     } else {
       // Case: node has left and right subtrees
 
-      std::unique_ptr<TreeNode>& minNode =
+      std::unique_ptr<TreeNode> &minNode =
           this->FindMin(node->right);  // returns a reference to the actual
                                        // pointer in the tree
       node->data = minNode->data;
@@ -297,8 +297,8 @@ void BSTree<T>::Remove(T val, std::unique_ptr<TreeNode>& node) {
 /// minimum-value node The returned pointer will be a reference of an actual
 /// pointer in the tree, not a copy
 template <typename T>
-std::unique_ptr<typename BSTree<T>::TreeNode>& BSTree<T>::FindMin(
-    std::unique_ptr<TreeNode>& node) {
+std::unique_ptr<typename BSTree<T>::TreeNode> &BSTree<T>::FindMin(
+    std::unique_ptr<TreeNode> &node) {
   if (node == nullptr) {
     throw "Min value not found";
   } else if (node->left == nullptr) {

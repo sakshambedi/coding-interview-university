@@ -44,7 +44,8 @@
     "stdexcept": "cpp",
     "streambuf": "cpp",
     "cinttypes": "cpp",
-    "typeinfo": "cpp"
+    "typeinfo": "cpp",
+    "queue": "cpp"
   },
   "C_Cpp_Runner.warnings": [
     "-Wall",
@@ -58,5 +59,10 @@
   "C_Cpp_Runner.cppStandard": "",
   "C_Cpp_Runner.excludeSearch": [],
   "C_Cpp_Runner.enableWarnings": true,
-  "C_Cpp_Runner.warningsAsError": false
+  "C_Cpp_Runner.warningsAsError": false,
+  "C_Cpp_Runner.cCompilerPath": "/usr/bin/gcc",
+  "C_Cpp_Runner.cppCompilerPath": "/usr/bin/g++",
+  "C_Cpp_Runner.debuggerPath": "/usr/bin/gdb",
+  "C_Cpp_Runner.makePath": "/usr/bin/make",
+  "workbench.editor.enablePreview": false
 }

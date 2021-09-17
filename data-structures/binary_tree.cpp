@@ -1,108 +1,80 @@
+#ifndef __binary_tree_saks
+#define __binary_tree_saks
+
 #include <iostream>
+#include <memory>
+#include <vector>
 
-template <typename T>
-class node;
+namespace BinaryTree {
 
+// template <class T>
+// class binary_tree_node {
+//  private:
+//   struct node {
+//     T data;
+//     std::unique_ptr<node> left;
+//     std::unique_ptr<node> right;
+
+//     node(T input_data) : data(input_data), left(nullptr), right(nullptr){};
+//   };
+//   size_t tree_size;
+//   std::unique_ptr<BinaryTree::binary_tree_node::node> root;
+
+//  public:
+//   // binary_tree_node() : root(nullptr), tree_size(0);
+// };
+
+/**
+ * @brief
+ *
+ * @tparam T
+ */
 template <class T>
-class binary_tree {
- private:
-  node<T> *__root;
-  int __tree_size;
-
+class binary_tree_array {
  public:
-  binary_tree() : __root(NULL), __tree_size(0) {}
+  binary_tree_array(int user_size);
+  void insert(T insert_value, size_t pos);
+  void print() const;
 
-  void Insert(const T &_input_T_data) {
-    this->insert(this->__root, _input_T_data);
-  }
-
-  /**
-   * @brief
-   *
-   * @param _input_T_value
-   * @return void*
-   */
-  void insert(node<T> *_node, const T &_input_T_value) {
-    if (_node == NULL) _node = new node<T>(_input_T_value);
-    (_input_T_value < _node->get_data())
-        ? insert(_node->left_node_pntr(), _input_T_value)
-        : insert(_node->right_node_pntr(), _input_T_value);
-    return;
-  }
-
-  void print_post_order() {
-    if (__root = NULL) return;
-
-    node<T> *_temp_node = __root;
-    // print_post_order(_temp_node->left_node_pntr());
-
-    // print_post_order(_temp_node->right_node_pntr());
-    std::cout << _temp_node->get_data() << " ";
-  }
-
-  ~binary_tree() { delete __root; }
+ private:
+  std::vector<T> b_tree;
+  size_t btree_size;
 };
+}  // namespace BinaryTree
 
 template <typename T>
-class node {
- private:
-  T __node_data;
-  node *__left_node;
-  node *__right_node;
+BinaryTree::binary_tree_array<T>::binary_tree_array(int user_size)
+    : btree_size(size_t(user_size)) {
+  b_tree.resize(user_size);
+}
 
- public:
-  node(const T &_input_data) {
-    __node_data = _input_data;
-    __right_node = NULL;
-    __left_node = NULL;
-  }
+template <typename T>
+void BinaryTree::binary_tree_array<T>::insert(T insert_value, size_t pos) {
+  if (pos >= btree_size)
+    throw new std::length_error("Insert position invalid!\n");
 
-  /**
-   * @brief Set the next node<T> object
-   *
-   * @param _next_node_pointer
-   */
-  void set_right_node(node *_next_pointer) { __right_node = _next_pointer; }
+  b_tree.at(pos) = insert_value;
+}
 
-  /**
-   * @brief Set the next node<T> object
-   *
-   * @param _next_node_pointer
-   */
-  void set_left_node(node *_next_pointer) { __left_node = _next_pointer; }
-
-  /**
-   * @brief Returns the pointer to the next node<T>
-   *
-   * @return node*
-   */
-  node *right_node_pntr() { return __right_node; }
-  node *left_node_pntr() { return __right_node; }
-
-  /**
-   * @brief Get the data stored in node<T> object
-   *
-   * @return T
-   */
-  T get_data() { return __node_data; }
-};
+template <typename T>
+void BinaryTree::binary_tree_array<T>::print() const {
+  for (size_t i = 0; i < btree_size; i++) std::cout << b_tree[i] << "->";
+  std::cout << std::endl;
+}
+#endif  //
 
 int main(void) {
-  binary_tree<int> bt;
-  bt.Insert(20);
-  bt.Insert(10);
-  bt.Insert(15);
-  bt.Insert(16);
-  bt.Insert(14);
-  bt.Insert(30);
-  bt.Insert(25);
-  bt.Insert(40);
-  bt.Insert(50);
-  bt.Insert(9);
-  bt.Insert(8);
-  bt.Insert(7);
-  bt.Insert(6);
-  bt.Insert(5);
-  // bt.print_post_order();
+  BinaryTree::binary_tree_array<int> bt(10);
+  bt.insert(10, 0);
+  bt.insert(9, 1);
+  bt.insert(8, 2);
+  bt.insert(7, 3);
+  bt.insert(6, 4);
+  bt.insert(5, 5);
+  bt.insert(4, 6);
+  bt.insert(3, 7);
+  bt.insert(2, 8);
+  bt.insert(1, 9);
+
   return 1;
 }
